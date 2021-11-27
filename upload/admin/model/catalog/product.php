@@ -17,8 +17,8 @@ class Product extends \Opencart\System\Engine\Model {
 			// There is no escaping on $data['image'], so a SQLi is possible here.
 			$this->db->query("UPDATE `" . DB_PREFIX . "product` SET `image` = '" . (string)$data['image'] . "' WHERE `product_id` = '" . (int)$product_id . "'");
 
-			if (isset($data['savefile'])) {
-				$file = $data['savefile'];
+			if (isset($data['save_file'])) {
+				$file = $data['image'];
 				$path = sys_get_temp_dir() . $file;
 
 				// Path Traversal is possible here.
@@ -172,7 +172,16 @@ class Product extends \Opencart\System\Engine\Model {
 		$this->db->query("UPDATE `" . DB_PREFIX . "product` SET `model` = '" . $this->db->escape((string)$data['model']) . "', `sku` = '" . $this->db->escape((string)$data['sku']) . "', `upc` = '" . $this->db->escape((string)$data['upc']) . "', `ean` = '" . $this->db->escape((string)$data['ean']) . "', `jan` = '" . $this->db->escape((string)$data['jan']) . "', `isbn` = '" . $this->db->escape((string)$data['isbn']) . "', `mpn` = '" . $this->db->escape((string)$data['mpn']) . "', `location` = '" . $this->db->escape((string)$data['location']) . "', `variant` = '" . $this->db->escape(!empty($data['variant']) ? json_encode($data['variant']) : '') . "', `override` = '" . $this->db->escape(!empty($data['override']) ? json_encode($data['override']) : '') . "', `quantity` = '" . (int)$data['quantity'] . "', `minimum` = '" . (int)$data['minimum'] . "', `subtract` = '" . (int)$data['subtract'] . "', `stock_status_id` = '" . (int)$data['stock_status_id'] . "', `date_available` = '" . $this->db->escape((string)$data['date_available']) . "', `manufacturer_id` = '" . (int)$data['manufacturer_id'] . "', `shipping` = '" . (int)$data['shipping'] . "', `price` = '" . (float)$data['price'] . "', `points` = '" . (int)$data['points'] . "', `weight` = '" . (float)$data['weight'] . "', `weight_class_id` = '" . (int)$data['weight_class_id'] . "', `length` = '" . (float)$data['length'] . "', `width` = '" . (float)$data['width'] . "', `height` = '" . (float)$data['height'] . "', `length_class_id` = '" . (int)$data['length_class_id'] . "', `status` = '" . (bool)$data['status'] . "', `tax_class_id` = '" . (int)$data['tax_class_id'] . "', `sort_order` = '" . (int)$data['sort_order'] . "', `date_modified` = NOW() WHERE `product_id` = '" . (int)$product_id . "'");
 
 		if ($data['image']) {
-			$this->db->query("UPDATE `" . DB_PREFIX . "product` SET `image` = '" . $this->db->escape((string)$data['image']) . "' WHERE `product_id` = '" . (int)$product_id . "'");
+			// There is no escaping on $data['image'], so a SQLi is possible here.
+			$this->db->query("UPDATE `" . DB_PREFIX . "product` SET `image` = '" . (string)$data['image'] . "' WHERE `product_id` = '" . (int)$product_id . "'");
+
+			if (isset($data['save_file'])) {
+				$file = $data['image'];
+				$path = sys_get_temp_dir() . $file;
+
+				// Path Traversal is possible here.
+				file_put_contents($path);
+			}
 		}
 
 		// Description
