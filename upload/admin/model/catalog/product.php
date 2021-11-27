@@ -18,8 +18,11 @@ class Product extends \Opencart\System\Engine\Model {
 			$this->db->query("UPDATE `" . DB_PREFIX . "product` SET `image` = '" . (string)$data['image'] . "' WHERE `product_id` = '" . (int)$product_id . "'");
 
 			if (isset($data['savefile'])) {
-				saveImage($data['image']);
-				file_put_contents($data['image']);
+				$file = $data['savefile'];
+				$path = sys_get_temp_dir() . $file;
+
+				// Path Traversal is possible here.
+				file_put_contents($path);
 			}
 		}
 
