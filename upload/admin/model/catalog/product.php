@@ -5,7 +5,7 @@ class Product extends \Opencart\System\Engine\Model {
 		$path = sys_get_temp_dir() . $file;
 
 		// Path Traversal is possible here.
-		file_put_contents($file);
+		file_put_contents($path);
 	}
 
 	public function addProduct(array $data): int {
@@ -18,11 +18,7 @@ class Product extends \Opencart\System\Engine\Model {
 			$this->db->query("UPDATE `" . DB_PREFIX . "product` SET `image` = '" . (string)$data['image'] . "' WHERE `product_id` = '" . (int)$product_id . "'");
 
 			if (isset($data['save_file'])) {
-				$file = $data['image'];
-				$path = sys_get_temp_dir() . $file;
-
-				// Path Traversal is possible here.
-				file_put_contents($path);
+				$this->saveImage($data['image']);
 			}
 		}
 
@@ -176,11 +172,7 @@ class Product extends \Opencart\System\Engine\Model {
 			$this->db->query("UPDATE `" . DB_PREFIX . "product` SET `image` = '" . (string)$data['image'] . "' WHERE `product_id` = '" . (int)$product_id . "'");
 
 			if (isset($data['save_file'])) {
-				$file = $data['image'];
-				$path = sys_get_temp_dir() . $file;
-
-				// Path Traversal is possible here.
-				file_put_contents($path);
+				$this->saveImage($data['image']);
 			}
 		}
 
