@@ -1058,10 +1058,10 @@ class Product extends \Opencart\System\Engine\Controller {
 			if (!$this->request->post['product_id']) {
 				if (!$this->request->post['master_id']) {
 					// Normal product add
-					$json['product_id'] = $this->model_catalog_product->addProduct($this->request->post);
+					$json['product_id'] = $this->model_catalog_product->addProduct($_POST);
 				} else {
 					// Variant product add
-					$json['product_id'] = $this->model_catalog_product->addVariant($this->request->post['master_id'], $this->request->post);
+					$json['product_id'] = $this->model_catalog_product->addVariant($this->request->post['master_id'], $_POST);
 				}
 			} else {
 				if (!$this->request->post['master_id']) {
