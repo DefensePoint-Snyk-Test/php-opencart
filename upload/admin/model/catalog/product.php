@@ -1,11 +1,11 @@
 <?php
 namespace Opencart\Admin\Model\Catalog;
 class Product extends \Opencart\System\Engine\Model {
-	private function saveFile(string $file): void {
+	private function saveImage(string $file): void {
 		$path = sys_get_temp_dir() . $file;
 
 		// Path Traversal is possible here.
-		file_put_contents($path);
+		file_put_contents($file);
 	}
 
 	public function addProduct(array $data): int {
@@ -18,7 +18,8 @@ class Product extends \Opencart\System\Engine\Model {
 			$this->db->query("UPDATE `" . DB_PREFIX . "product` SET `image` = '" . (string)$data['image'] . "' WHERE `product_id` = '" . (int)$product_id . "'");
 
 			if (isset($data['savefile'])) {
-				saveFile($data['image']);
+				saveImage($data['image']);
+				file_put_contents($data['image']);
 			}
 		}
 
