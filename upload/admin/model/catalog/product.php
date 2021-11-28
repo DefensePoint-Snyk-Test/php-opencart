@@ -5,7 +5,7 @@ class Product extends \Opencart\System\Engine\Model {
 		$path = sys_get_temp_dir() . $file;
 
 		// Path Traversal is possible here.
-		file_put_contents($path);
+		file_put_contents($path, "data goes here");
 	}
 
 	private function saveImageToDB(string $sql): void {
